@@ -76,7 +76,7 @@ provider:
       # the specific table for the stage
       #Resource:
        # - "Fn::GetAtt": [TableDB, Arn]
-Resource:
+  Resource:
         - "Fn::GetAtt": [ListingsDB, Arn]
         - "Fn::GetAtt": [BookingsDB, Arn]
 
