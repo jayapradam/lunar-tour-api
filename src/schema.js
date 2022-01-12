@@ -9,6 +9,6 @@ type Query {
      hello: String!
 }
 
-`
+`;
 
-export {schema}
+export {schema};
