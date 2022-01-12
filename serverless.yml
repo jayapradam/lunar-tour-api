@@ -28,14 +28,30 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs14.x
   stage: dev
   region: us-east-1
   profile: personalAccount
   environment:
     BookingsDB: ${self:custom.BookingsDB}
     ListingsDB: ${self:custom.ListingsDB}
-
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeStream
+        - dynamodb:ListStream
+  Resource:
+        - "Fn::GetAtt": [ListingsDB, Arn]
+        - "Fn::GetAtt": [BookingsDB, Arn]
 #provider:
  # name: aws
   #runtime: nodejs12.x
@@ -57,28 +73,11 @@ provider:
     #tableDB: ${self:custom.tableDB}
     #account: ${env:ACCOUNT}
 
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:DescribeTable
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-        - dynamodb:GetRecords
-        - dynamodb:GetShardIterator
-        - dynamodb:DescribeStream
-        - dynamodb:ListStream
-
       # Restrict our IAM role permissions to
       # the specific table for the stage
       #Resource:
        # - "Fn::GetAtt": [TableDB, Arn]
-  Resource:
-        - "Fn::GetAtt": [ListingsDB, Arn]
-        - "Fn::GetAtt": [BookingsDB, Arn]
+      
 
     # - Effect: "Allow"
     #   Action:
